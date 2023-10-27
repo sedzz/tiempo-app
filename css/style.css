@@ -1,11 +1,17 @@
-body {
-    margin: 20%;
+@font-face {
+    font-family: "cod";
+    src: url("../fonts/cod/Call\ of\ Ops\ Duty\ II.otf");
+  }
+
+#carta{
+    margin-top: 200px;
 }
 
-#busqueda {
-    margin: 50px;
-    left: 8vw;
+.text-carta{
+    font-size: 22px;
+}
+
+#main{
+    font-family: cod;
     text-align: center;
 }
-
-

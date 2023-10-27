@@ -5,49 +5,43 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
     <link rel="stylesheet" href="./css/style.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.1/css/all.css" crossorigin="anonymous">
     <title>Tiempo</title>
 </head>
 <body>
 
-    <nav class="navbar navbar-light bg-light">
-              <a class="navbar-brand" href="#">
-                  <img src="./images/logo.png" width="40" height="40" class="d-inline-block align-top" alt="">
-                  elTiempo
-              </a>
-              <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                  <span class="navbar-toggler-icon"></span>
-              </button>
-              <div class="collapse navbar-collapse" id="navbarNav">
-                  <ul class="navbar-nav">
-                    <li class="nav-item active">
-                      <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
-                    </li>
-                    <li class="nav-item">
-                      <a class="nav-link" href="#">Features</a>
-                    </li>
-                    <li class="nav-item">
-                      <a class="nav-link" href="#">Pricing</a>
-                    </li>
-                    <li class="nav-item">
-                      <a class="nav-link disabled" href="#">Disabled</a>
-                    </li>
-                  </ul>
-                </div>
-     </nav>
 
-     <div class="card" style="width: 18rem" id="busqueda">
-      <div class="card-body">
-        <h5 class="card-title">Introduce una ciudad</h5>
-        <p><input type="text" name="city" id="ciudad" placeholder="📍"></p>
-        <button class="btn btn-primary" id="get-tiempo">Buscar</button>
-      </div>
+  <div  id="carta" class="container justify-content-center align-items-center">
+        <div id="main">
+          <h1>Weather is Sweet Yeah !</h1>
+        </div>
+        
     </div>
+  </div>
 
+    <div id="results" class="card flex-row card-deck border-white">
+    </div>
+    <p></p>
+    <footer class="footer fixed-bottom">
+      <div class="container text-center bg-primary">
+          <div class="d-flex justify-content-center">
+              <button id="home" class="btn btn-primary mx-2" name="inicio">
+                <i class="fas fa-home"></i>
+              </button>
+              <button id="lupa" class="btn btn-primary mx-5">
+                <i class="fas fa-search"></i>
+              </button>
+              <button id="ubicacion" class="btn btn-primary mx-2">
+                <i class="fas fa-map-marker-alt"></i>
+              </button>
+          </div>
+      </div>
+    </footer>
 
-    <div id="results"></div>
-
-    <script src="./js/jquery-2.1.4.min.js"></script>
-    <script src="./js/weather-client.js"></script>
+  
+  <script src="./js/jquery-2.1.4.min.js"></script>
+  <script src="./js/weather-client.js"></script>
+  <script src="./js/front.js"></script>
 
 </body>
 </html>
