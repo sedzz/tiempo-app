@@ -17,11 +17,29 @@ Tiempo.prototype.getEstadoDia = function (lat, lon) {
         var result = '';
 
         if (ciudad.weather.length > 0) {
-            var mensajeTiempo = ciudad.weather[0].main;
-            var imagen = imagenesTiempo[mensajeTiempo];
-
-            result+= '<div class="container d-flex justify-content-center align-items-center"><div class="card shadow-lg p-3 mb-5 bg-white rounded"><div class="row no-gutters"><div class="col-md-4"><img src="' + imagen + '" class="card-img-top rounded-circle" alt="' + mensajeTiempo + '"><div class="card-body"><h5 class="card-title text-center">'+Math.round(ciudad.main.temp)+'Cº</h5><p class="card-text text-center">' + ciudad.name + '</p></div></div><div class="col-md-8"><div class="card-body"><h5 class="card-title">Detalles del clima</h5><p class="card-text">'+'⬇️'+Math.round(ciudad.main.temp_min)+'º'+ '⬆️'+Math.round(ciudad.main.temp_max)+'º</p><p class="card-text"> ' + Math.round(ciudad.wind.speed) + ' km/h </p></div></div></div></div></div>'
-
+            
+           result+= `
+           <div class="container text-center">
+                <div class="row">
+                    <div class="col">
+                    <h1 class="display-4 ">${ciudad.name}</h1>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                    <h1 class="display-2">${Math.round(ciudad.main.temp)}ºC</h1>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col text-primary-bg-subtle">
+                    <h2>${Math.round(ciudad.main.temp_min)}ºC </h2>
+                    </div>
+                    <div class="col text-danger">
+                    <h2>${Math.round(ciudad.main.temp_max)}ºC</h2>
+                    </div>
+                </div>
+            </div>
+           `
             $('#carta').html(result);
 
         } else {
@@ -48,28 +66,53 @@ Tiempo.prototype.getInfoHorasDia = function (lat, lon) {
             var fechaHora = element.dt_txt.split(" ")[1];
             var fecha = element.dt_txt.split(" ")[0]
             var dia = parseInt(fecha.split("-")[2]);
+            var mes = parseInt(fecha.split("-")[1]);
             var hora = parseInt(fechaHora.split(":")[0]);
+            var diaMesAño = fecha.split("-")[0] + "-"+fecha.split("-")[1]+ "-" + fecha.split("-")[2];
             mensajeTiempo = element.weather[0].main;
             imagen = imagenesTiempo[mensajeTiempo];
-            horaMinutos = fechaHora.toString().substr(0,5);  
-            
+            horaMinutos = fechaHora.toString().substr(0,5);
+            var diasSemana = ["Domingo", "Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado"];
+            var numeroDia = new Date(diaMesAño).getDay();
+            var nombreDia = diasSemana[numeroDia];
+            var otro;
+
             
 
             if ((dia === diaActual)) {
                 horaDiv = `
-                <div class="card">
+                <div class="card mt-4 mx-auto bg-transparent">
                     <img src="${imagen}" class="card-img-top rounded-circle" alt="${mensajeTiempo}">
                     <div class="card-body">
                         <h5 class="card-title text-center">${Math.round(element.main.temp)}°C</h5>
                         <p class="card-text text-center">${horaMinutos}</p>
                     </div>
-                    <div class="card-footer">
+                    <div class="card-footer text-center border-0">
                         <p class="text-center">⬇️${Math.round(element.main.temp_min)}° ⬆️${Math.round(element.main.temp_max)}°</p>
                         <p class="text-center">💨${Math.round(element.wind.speed)} km/h</p>
                     </div>
                 </div>`;                
                 $('#results').append(horaDiv);
             }
+            
+
+            if(hora == 15){
+                otro = `
+                    <tr>
+                        <td>${dia}-${mes}</td>
+                        ${dia === diaActual ? '<td>Hoy</td>' : `<td>${nombreDia}</td>`}
+                        <td class="text-center"><img src="${imagen}" class="img-fluid bg-transparent" width="60"></td>
+                        <td>${Math.round(element.main.temp_min)}</td>
+                        <td class="bg-transparent">${Math.round(element.main.temp_max)}</td>
+                    </tr>
+                `
+
+
+
+            $('#variosDias').append(otro)
+            }
+
+            
             
         });
 
@@ -78,18 +121,27 @@ Tiempo.prototype.getInfoHorasDia = function (lat, lon) {
 }
 
 function accionMenuHome(){
-    let result;
+    let result = '<div id="carta" class="container justify-content-center align-items-center"><div id="main"><h1>Weather is Sweet Yeah !</h1></div></div></div>';
+
+    $('#results').empty();
+    $('#variosDias').empty();
+    $('#carta').html(result);
 }
 
 
 function accionesMenuLupa(){
     let results = '<div id="carta" class="container d-flex justify-content-center align-items-center"><div class="card" id="busqueda"><div class="card-body text-center"><h5 class="card-title">Introduce una ciudad</h5><p><input type="text" name="city" id="ciudad" placeholder="📍"></p><button class="btn btn-primary" id="get-tiempo">Buscar</button></div></div></div>';
     $('#carta').html(results);
-    $('#results').html(" ");
+    $('#results').empty();
+    $('#variosDias').empty();
 }
 
 Tiempo.prototype.accionMenuUbicacion = function(){
     var self = this;
+
+    $('#results').empty();
+    $('#variosDias').empty();
+
 
     if(navigator.geolocation){
         navigator.geolocation.getCurrentPosition(function(position){
@@ -127,11 +179,10 @@ $(function () {
 
     $('#ubicacion').on('click', function(){
         TMPO.accionMenuUbicacion();
-        TMPO.getInfoHorasDia(lat,lon)
     });
 
     $('#home').on('click', function(){
-        
+        accionMenuHome();
     })
 
 });
